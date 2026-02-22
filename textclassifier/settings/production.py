@@ -38,7 +38,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'pdk&99$ou9^um8-xyb&q)==r5)sa##6(ef3w-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['spamham.herokuapp.com']
+ALLOWED_HOSTS = ['spamham.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'spamham',
 ]
 
