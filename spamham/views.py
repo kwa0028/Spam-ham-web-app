@@ -7,7 +7,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from utils import text_process
-from manage import importPipelines
+
+# Load once at startup, not on every request
+with open('text_clf_pipeline.pkl', 'rb') as f:
+    pipeline = pickle.load(f)
+with open('spam_clf_model_pipeline_final_second.pkl', 'rb') as f:
+    pipeline_second = pickle.load(f)
 
 
 # Create your views here.
@@ -27,8 +32,6 @@ def home(request):
 
 def predict(message):
     result = " "
-
-    pipeline, pipeline_second = importPipelines()
 
     test = pipeline.predict(message)
     test_prob = pipeline.predict_proba(message)
