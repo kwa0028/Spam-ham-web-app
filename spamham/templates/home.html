@@ -4,7 +4,7 @@
 {% block content %}
 
 <br>
-<h1 style="color:white">SpamHam Spam Hammmm......</h1>
+<h1 style="color:white"></h1>
 <div class="jumbotron" style="padding-top: 10px">
     <h2>What is SpamHam, what does it do?</h2>
     <div>
@@ -44,7 +44,7 @@
         {# ── Confidence Meter ── #}
         {% if is_spam %}
         <p><strong>Spam Probability:</strong> {{ accuracy }}%</p>
-        <div style="background:#e0e0e0; border-radius:6px; overflow:hidden; height:28px; margin-bottom:16px;">
+        <div class="confidence-track" style="border-radius:6px; overflow:hidden; height:28px; margin-bottom:16px;">
             <div style="width:{{ accuracy }}%; background:linear-gradient(90deg,#e53935,#b71c1c);
                         height:100%; border-radius:6px; display:flex; align-items:center;
                         justify-content:flex-end; padding-right:8px; color:#fff; font-weight:bold;
@@ -54,7 +54,7 @@
         </div>
         {% else %}
         <p><strong>Ham Probability:</strong> {{ accuracy }}%</p>
-        <div style="background:#e0e0e0; border-radius:6px; overflow:hidden; height:28px; margin-bottom:16px;">
+        <div class="confidence-track" style="border-radius:6px; overflow:hidden; height:28px; margin-bottom:16px;">
             <div style="width:{{ accuracy }}%; background:linear-gradient(90deg,#43a047,#1b5e20);
                         height:100%; border-radius:6px; display:flex; align-items:center;
                         justify-content:flex-end; padding-right:8px; color:#fff; font-weight:bold;
@@ -113,7 +113,7 @@
             </div>
 
             {# ── Legend ── #}
-            <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #555;">
+            <div class="heatmap-legend" style="margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem;">
                 <span>Less influential</span>
                 {% if is_spam %}
                 <div style="width:120px; height:14px; border-radius:4px;
