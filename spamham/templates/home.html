@@ -3,72 +3,158 @@
 
 {% block content %}
 
-    <br>
-    <h1 style="color:white">SpamHam Spam Hammmm......</h1>
-    <div class="jumbotron" style="padding-top: 10px">
-        <h2>What is SpamHam, what does it do?</h2>
-        <div><p>Unsolicited messages which we did not ask for from a source is what we call <b><a
-                href="https://blog.barracuda.com/2013/10/03/ham-v-spam-whats-the-difference/">SPAM</a></b>.<br> Messages
-            which are the desired ones and are not spam are known as <b><a
-                    href="https://blog.barracuda.com/2013/10/03/ham-v-spam-whats-the-difference/">HAM</a></b>.
-            <br> Wait! Don't go away, I got an example of a spam. Yes the one below! <br> <em
-                    style="color:rebeccapurple">A [redacted] loan for Rs 100K is approved for you if you receive this
-                SMS. 1 min verification & cash in 1 hr at www.[redacted].co.in to opt out reply stop</em></p>
-            <p>This web app is powered with ML, NLP which identifies whether the message is a spam or not.</p>
-            <p><b>Write or paste a message/email in the text box below to find out is it a spam or not?</b></p></div>
-        <form method="post">
-            {#    	<input type="text" class="" name="message" placeholder="Write your message here..." required="required" />#}
-            <textarea class="btn-block" name="message" placeholder="Write here... eg; Hello, how are you? "
-                      required="required"></textarea>
-            <br>
-            <button type="submit" onclick="scrollDown()" class="btn btn-danger btn-block btn-large"> is it a Spam? Check
-                me out!
-            </button>
-            {% csrf_token %}
-        </form>
+<br>
+<h1 style="color:white">SpamHam Spam Hammmm......</h1>
+<div class="jumbotron" style="padding-top: 10px">
+    <h2>What is SpamHam, what does it do?</h2>
+    <div>
+        <p>Unsolicited messages which we did not ask for from a source is what we call
+            <b><a href="https://blog.barracuda.com/2013/10/03/ham-v-spam-whats-the-difference/">SPAM</a></b>.<br>
+            Messages which are the desired ones and are not spam are known as
+            <b><a href="https://blog.barracuda.com/2013/10/03/ham-v-spam-whats-the-difference/">HAM</a></b>.
+            <br>Wait! Don't go away. I got an example of a spam. Yes the one below!<br>
+            <em style="color:rebeccapurple">A [redacted] loan for Rs 100K is approved for you if you receive this SMS.
+                1 min verification &amp; cash in 1 hr at www.[redacted].co.in to opt out reply stop</em>
+        </p>
+        <p>This web app is powered with ML, NLP which identifies whether the message is a spam or not.</p>
+        <p><b>Write or paste a message/email in the text box below to find out is it a spam or not?</b></p>
     </div>
+    <form method="post">
+        <textarea class="btn-block" name="message" placeholder="Write here... eg; Hello, how are you?"
+                  required="required"></textarea>
+        <br>
+        <button type="submit" onclick="scrollDown()" class="btn btn-danger btn-block btn-large">
+            is it a Spam? Check me out!
+        </button>
+        {% csrf_token %}
+    </form>
+</div>
 
-    <br><br>
-    <div id="scroll">
-        <p> Result-</p>
-        {% if result %}
-            {#    <script> gotoBottom("result") </script>#}
+<br><br>
+<div id="scroll">
+    <p>Result-</p>
+    {% if result %}
+    <div class="jumbotron" style="padding-top: 10px" id="result">
+        <script>scrollDown();</script>
 
+        <div>You entered<br>"{{ message }}"<br></div>
+        <p>which is <strong style="font-size: larger">{{ result }}</strong>!</p>
+        <br>
 
-            <div class="jumbotron" style="padding-top: 10px" id="result">
-                <script>scrollDown();</script>
-
-                <div> You entered <br> "{{ message }}" <br></div>
-                <p>which is <strong style="font-size: larger">{{ result }}</strong>!</p> <br>
-                <p>Test accuracy: {{ accuracy }}%</p>
-                <p> Under the hood: Naive Bayes, with NLP(BOW, TF-IDF)</p>
+        {# ── Confidence Meter ── #}
+        {% if is_spam %}
+        <p><strong>Spam Probability:</strong> {{ accuracy }}%</p>
+        <div style="background:#e0e0e0; border-radius:6px; overflow:hidden; height:28px; margin-bottom:16px;">
+            <div style="width:{{ accuracy }}%; background:linear-gradient(90deg,#e53935,#b71c1c);
+                        height:100%; border-radius:6px; display:flex; align-items:center;
+                        justify-content:flex-end; padding-right:8px; color:#fff; font-weight:bold;
+                        transition:width 0.8s ease;">
+                {{ accuracy }}%
             </div>
-            <script>scrollDown();</script>
-
-
+        </div>
         {% else %}
-            <p></p>
+        <p><strong>Ham Probability:</strong> {{ accuracy }}%</p>
+        <div style="background:#e0e0e0; border-radius:6px; overflow:hidden; height:28px; margin-bottom:16px;">
+            <div style="width:{{ accuracy }}%; background:linear-gradient(90deg,#43a047,#1b5e20);
+                        height:100%; border-radius:6px; display:flex; align-items:center;
+                        justify-content:flex-end; padding-right:8px; color:#fff; font-weight:bold;
+                        transition:width 0.8s ease;">
+                {{ accuracy }}%
+            </div>
+        </div>
         {% endif %}
 
-        <div class="text-center container" style="color:whitesmoke">
-            <hr style="background: whitesmoke">
-            <h3> Made by <b> Aditya Kaushik</b> with <b>Love!</b></h3>
-            <h6>Code for all(webapp + ML algo) is available on my github(public); <a
-                    href="https://github.com/aditya98ak/spam-ham-web-app">aditya98ak/spam-ham-web-app</a></h6>
-            <p> For any queries reach out to me on.</p>
-            <div class="text-center list-group col-sm-4 container">
-                <a href="https://www.linkedin.com/in/adityakaushik01" class="list-group-item">LinkedIn</a>
-                <a href="https://twitter.com/aditya98ak" class="list-group-item">Twitter</a>
-                <a href="https://github.com/aditya98ak" class="list-group-item">GitHub</a>
+        {# ── Token Heatmap ── #}
+        {% if heatmap_tokens %}
+        <div style="margin-top: 16px;">
+            <strong>Token Heatmap:</strong>
+            <div style="margin-top: 8px; font-size: 1.05rem; line-height: 2.2; word-wrap: break-word;">
+                {% for word, intensity in heatmap_tokens %}
+                    {% if is_spam %}
+                        {# Red tint: intensity -> rgba(220, 50, 50, intensity) #}
+                        <span
+                            title="{{ word }}: spam score {{ intensity }}"
+                            style="
+                                display: inline-block;
+                                padding: 2px 6px;
+                                margin: 2px;
+                                border-radius: 4px;
+                                background-color: rgba(220, 50, 50, {{ intensity }});
+                                color: {% if intensity > 0.5 %}#fff{% else %}inherit{% endif %};
+                                font-weight: {% if intensity > 0.6 %}bold{% else %}normal{% endif %};
+                                border: 1px solid rgba(220, 50, 50, {% if intensity > 0.1 %}0.4{% else %}0.1{% endif %});
+                                transition: transform 0.15s;
+                                cursor: default;
+                            "
+                            onmouseover="this.style.transform='scale(1.12)'"
+                            onmouseout="this.style.transform='scale(1)'"
+                        >{{ word }}</span>
+                    {% else %}
+                        {# Green tint #}
+                        <span
+                            title="{{ word }}: ham score {{ intensity }}"
+                            style="
+                                display: inline-block;
+                                padding: 2px 6px;
+                                margin: 2px;
+                                border-radius: 4px;
+                                background-color: rgba(40, 167, 69, {{ intensity }});
+                                color: {% if intensity > 0.5 %}#fff{% else %}inherit{% endif %};
+                                font-weight: {% if intensity > 0.6 %}bold{% else %}normal{% endif %};
+                                border: 1px solid rgba(40, 167, 69, {% if intensity > 0.1 %}0.4{% else %}0.1{% endif %});
+                                transition: transform 0.15s;
+                                cursor: default;
+                            "
+                            onmouseover="this.style.transform='scale(1.12)'"
+                            onmouseout="this.style.transform='scale(1)'"
+                        >{{ word }}</span>
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% if result %}
-                <script>scrollDown();</script>
 
-            {% endif %}
+            {# ── Legend ── #}
+            <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #555;">
+                <span>Less influential</span>
+                {% if is_spam %}
+                <div style="width:120px; height:14px; border-radius:4px;
+                            background: linear-gradient(to right, rgba(220,50,50,0.05), rgba(220,50,50,1));
+                            border: 1px solid #ccc;"></div>
+                {% else %}
+                <div style="width:120px; height:14px; border-radius:4px;
+                            background: linear-gradient(to right, rgba(40,167,69,0.05), rgba(40,167,69,1));
+                            border: 1px solid #ccc;"></div>
+                {% endif %}
+                <span>More influential</span>
+                <span style="margin-left:12px; color:#888;">(hover a word to see its score)</span>
+            </div>
         </div>
+        {% endif %}
+
+        <br>
+        <p>Test accuracy: {{ accuracy }}%</p>
+        <p>Under the hood: Naive Bayes, with NLP(BOW, TF-IDF)</p>
     </div>
+    <script>scrollDown();</script>
+    {% else %}
+    <p></p>
+    {% endif %}
 
-    {#    <script>scrollDown();</script>#}
-
+    <div class="text-center container" style="color:whitesmoke">
+        <hr style="background: whitesmoke">
+        <h3>Made by <b>Aditya Kaushik</b> with <b>Love!</b></h3>
+        <h6>Code for all (webapp + ML algo) is available on my github (public):
+            <a href="https://github.com/aditya98ak/spam-ham-web-app">aditya98ak/spam-ham-web-app</a>
+        </h6>
+        <p>For any queries reach out to me on.</p>
+        <div class="text-center list-group col-sm-4 container">
+            <a href="https://www.linkedin.com/in/adityakaushik01" class="list-group-item">LinkedIn</a>
+            <a href="https://twitter.com/aditya98ak" class="list-group-item">Twitter</a>
+            <a href="https://github.com/aditya98ak" class="list-group-item">GitHub</a>
+        </div>
+        {% if result %}
+        <script>scrollDown();</script>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}
